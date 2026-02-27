@@ -88,6 +88,5 @@ const createMockPhoto = () => {
 
 const generateMockPhotos = () => Array.from({ length: MOCK_PHOTOS_COUNT }, createMockPhoto);
 
-console.log(generateMockPhotos());
 export { generateMockPhotos };
 
