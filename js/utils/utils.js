@@ -7,4 +7,6 @@ const getRandomIntegerFromInterval = (min, max) => Math.floor(Math.random() * (m
 
 const getRandomElementFromArray = (arr) => arr[getRandomIntegerFromInterval(0, arr.length - 1)];
 
+
 export { createIdCounter, getRandomElementFromArray, getRandomIntegerFromInterval };
+

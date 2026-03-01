@@ -1,5 +1,6 @@
+import { findTemplateById, renderPack } from './utils/dom.js';
 
-const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const pictureTemplate = findTemplateById('picture');
 const container = document.querySelector('.pictures');
 
 const createPicture = ({ comments, description, likes, url }) => {
@@ -12,12 +13,7 @@ const createPicture = ({ comments, description, likes, url }) => {
 };
 
 const renderGallery = (photos) => {
-  const fragment = document.createDocumentFragment();
-  photos.forEach((photo) => {
-    const picture = createPicture(photo);
-    fragment.appendChild(picture);
-  });
-  container.appendChild(fragment);
+  renderPack(photos, createPicture, container);
 };
 
 export { renderGallery };
