@@ -1,5 +1,6 @@
 import { renderGallery } from './gallery';
 import { generateMockPhotos } from './mock-photos';
+import { detailsInit } from './photo-details';
 
-const photos = generateMockPhotos();
-renderGallery(photos);
+detailsInit();
+renderGallery(generateMockPhotos());
