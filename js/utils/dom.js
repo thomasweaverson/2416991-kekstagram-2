@@ -20,4 +20,8 @@ const renderPack = (items, makeElement, container) => {
   container.appendChild(fragment);
 };
 
-export { findTemplateById, renderPack };
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const isEnterKey = (evt) => evt.key === 'Enter';
+
+export { findTemplateById, renderPack, isEscapeKey, isEnterKey };
