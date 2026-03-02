@@ -1,6 +1,6 @@
-import { COMMENT_ID_START_FROM, MAX_MOCK_COMMENTS_COUNT, MAX_MOCK_LIKES_COUNT, MIN_MOCK_LIKES_COUNT, MOCK_PHOTOS_COUNT } from './const.js';
+import { COMMENT_ID_START_FROM, MAX_MOCK_COMMENTS_COUNT, MAX_MOCK_LIKES_COUNT, MIN_MOCK_LIKES_COUNT, MOCK_PHOTOS_COUNT } from '../const.js';
+import { createIdCounter, getRandomElementFromArray, getRandomIntegerFromInterval } from '../utils/utils.js';
 import { getMockData } from './mock-data.js';
-import { createIdCounter, getRandomElementFromArray, getRandomIntegerFromInterval } from './utils/utils.js';
 
 const getPhotoId = createIdCounter();
 const getCommentId = createIdCounter(COMMENT_ID_START_FROM);
@@ -36,4 +36,3 @@ const createMockPhoto = () => {
 const generateMockPhotos = () => Array.from({ length: MOCK_PHOTOS_COUNT }, createMockPhoto);
 
 export { generateMockPhotos };
-
