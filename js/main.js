@@ -1,6 +1,6 @@
 import { renderGallery } from './gallery';
 import { generateMockPhotos } from './mock-photos';
-import { detailsInit } from './photo-details';
+import { initDetails } from './photo-details';
 
-detailsInit();
+initDetails();
 renderGallery(generateMockPhotos());
