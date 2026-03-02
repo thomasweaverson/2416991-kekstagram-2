@@ -1,34 +1,71 @@
-import { isEscapeKey, renderPack } from './utils/dom';
+import { isEnterKey, isEscapeKey, renderPack } from './utils/dom';
 
 const detailsElement = document.querySelector('.big-picture');
-const commentsShowMoreButton = detailsElement.querySelector('.comments-loader');
-const commentsCounter = detailsElement.querySelector('.social__comment-count');
+const commentsShown = document.querySelector('.social__comment-shown-count');
+const commentsTotal = document.querySelector('.social__comment-total-count');
 const detailsCloseButton = detailsElement.querySelector('.big-picture__cancel');
 const commentsList = detailsElement.querySelector('.social__comments');
 
+const createShowMoreCommentsButton = () => {
+  const showMoreButton = document.createElement('button');
+  showMoreButton.type = 'button';
+  showMoreButton.classList.add('social__comments-loader', 'comments-loader');
+  showMoreButton.textContent = 'Загрузить еще';
+  return showMoreButton;
+};
+
+const initShowMoreButton = () => {
+  let showMoreCommentsButton = detailsElement.querySelector('.social__comments-loader');
+
+  if (showMoreCommentsButton) {
+    showMoreCommentsButton.remove();
+  }
+
+  showMoreCommentsButton = createShowMoreCommentsButton();
+
+  commentsList.after(showMoreCommentsButton);
+
+  return showMoreCommentsButton;
+};
+
 const hideDetails = () => {
-  commentsList.innerHTML = '';
   detailsElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onEscKeydown);
+  document.removeEventListener('keydown', onEscapeKeydown);
+  document.removeEventListener('keydown', onEnterKeydown);
 };
 
-const onCancelButtonClick = () => {
+function onCloseButtonClick() {
   hideDetails();
-};
+}
 
-function onEscKeydown(evt) {
+function onOverlayClick(evt) {
+  if (evt.target === detailsElement) {
+    hideDetails();
+  }
+}
+
+function onEnterKeydown(evt) {
+  if (isEnterKey(evt) && evt.target === detailsCloseButton) {
+    evt.preventDefault();
+    hideDetails();
+  }
+}
+
+function onEscapeKeydown (evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     hideDetails();
   }
 }
 
-const renderDetails = ({ url, description, likes }) => {
+const renderDetails = ({ url, description, likes, comments }) => {
   detailsElement.querySelector('.big-picture__img img').src = url;
   detailsElement.querySelector('.big-picture__img img').alt = description;
   detailsElement.querySelector('.social__caption').textContent = description;
   detailsElement.querySelector('.likes-count').textContent = likes;
+  commentsShown.textContent = 0;
+  commentsTotal.textContent = comments.length;
 };
 
 const createComment = ({ avatar, name, message }) => {
@@ -52,31 +89,49 @@ const createComment = ({ avatar, name, message }) => {
   return commentElement;
 };
 
+const createCommentsControl = (comments) => {
+  let shownCommentsCount = 0;
+  const restComments = comments.slice();
+
+  const showNextComments = (showMoreButton) => {
+    const nextComments = restComments.splice(0, 5);
+    renderPack(nextComments, createComment, commentsList);
+    shownCommentsCount += nextComments.length;
+    commentsShown.textContent = shownCommentsCount;
+
+    if (restComments.length === 0) {
+      showMoreButton.classList.add('hidden');
+    }
+  };
+
+  return showNextComments;
+};
+
 const renderComments = (comments) => {
+  const showMoreCommentsButton = initShowMoreButton();
   commentsList.innerHTML = '';
-  renderPack(comments, createComment, commentsList);
+  const showCommentsBatch = createCommentsControl(comments);
+
+  showCommentsBatch(showMoreCommentsButton);
+
+  showMoreCommentsButton.addEventListener('click', () => showCommentsBatch(showMoreCommentsButton));
 };
 
 const showDetails = (photo) => {
   detailsElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
-  //! temporary
-  commentsShowMoreButton.classList.add('hidden');
-  commentsCounter.classList.add('hidden');
-
-  document.addEventListener('keydown', onEscKeydown);
+  document.addEventListener('keydown', onEscapeKeydown);
+  document.addEventListener('keydown', onEnterKeydown);
 
   renderDetails(photo);
-
-  if (photo.comments.length > 0) {
-    renderComments(photo.comments);
-  }
+  renderComments(photo.comments);
 };
 
-const detailsInit = () => {
-  detailsCloseButton.addEventListener('click', onCancelButtonClick);
+const initDetails = () => {
+  detailsElement.addEventListener('click', onOverlayClick);
+  detailsCloseButton.addEventListener('click', onCloseButtonClick);
 };
 
-export { detailsInit, showDetails };
+export { initDetails, showDetails };
 
