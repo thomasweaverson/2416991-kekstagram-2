@@ -1,29 +1,21 @@
-import { renderComments, resetComments } from './comments';
-import { isEnterKey, isEscapeKey } from './utils/dom';
+import { initPopup, isEnterKey, isEscapeKey } from '../utils/dom.js';
+import { renderComments, resetComments } from './comments.js';
+import { cacheUserComment, setUserComment } from './user-comment.js';
 
 const detailsElement = document.querySelector('.big-picture');
-const commentsShown = document.querySelector('.social__comment-shown-count');
-const commentsTotal = document.querySelector('.social__comment-total-count');
+const commentsShown = detailsElement.querySelector('.social__comment-shown-count');
+const commentsTotal = detailsElement.querySelector('.social__comment-total-count');
 const detailsCloseButton = detailsElement.querySelector('.big-picture__cancel');
 
 const hideDetails = () => {
-  detailsElement.classList.add('hidden');
-  document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscapeKeydown);
   document.removeEventListener('keydown', onDetailsCloseButtonEnterKeydown);
+
+  detailsElement.classList.add('hidden');
+  document.body.classList.remove('modal-open');
   resetComments();
+  cacheUserComment();
 };
-
-function onCloseButtonClick(evt) {
-  evt.preventDefault();
-  hideDetails();
-}
-
-function onOverlayClick(evt) {
-  if (evt.target === detailsElement) {
-    hideDetails();
-  }
-}
 
 function onDetailsCloseButtonEnterKeydown(evt) {
   if (isEnterKey(evt) && evt.target === detailsCloseButton) {
@@ -32,9 +24,15 @@ function onDetailsCloseButtonEnterKeydown(evt) {
   }
 }
 
-function onEscapeKeydown (evt) {
+function onEscapeKeydown(evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
+    const activeElement = document.activeElement;
+    const isInputFocused = activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA';
+    if (isInputFocused) {
+      activeElement.blur();
+      return;
+    }
     hideDetails();
   }
 }
@@ -57,11 +55,11 @@ const showDetails = (photo) => {
 
   renderDetails(photo);
   renderComments(photo.comments);
+  setUserComment(photo);
 };
 
 const initDetails = () => {
-  detailsElement.addEventListener('click', onOverlayClick);
-  detailsCloseButton.addEventListener('click', onCloseButtonClick);
+  initPopup(detailsElement, detailsCloseButton, hideDetails);
 };
 
 export { initDetails, showDetails };

@@ -1,6 +1,6 @@
-import { mocks } from './mocks/mocks.js';
-import { showDetails } from './photo-details.js';
-import { findTemplateById, renderPack } from './utils/dom.js';
+import { mocks } from '../mocks/mocks.js';
+import { showDetails } from '../photo-details/photo-details.js';
+import { findTemplateById, renderPack } from '../utils/dom.js';
 
 const thumbnailTemplate = findTemplateById('picture');
 const gallery = document.querySelector('.pictures');

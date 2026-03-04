@@ -676,7 +676,6 @@ main {
 .text {
   margin: 0;
   padding: 0;
-  margin-bottom: 30px;
 
   text-align: center;
   border: none;
@@ -700,7 +699,7 @@ main {
   width: 450px;
   height: 100px;
 
-  margin: 0 auto;
+  margin: 0 auto 30px;
   padding: 15px 10px;
 
   font-family: "Open Sans", "Arial", sans-serif;
@@ -711,8 +710,8 @@ main {
 }
 
 .img-upload__field-wrapper--error {
-  background-color: #fd4d4b;
-  color:#ffffff;
+  color: #fd4d4b;
+  text-transform: none;
   font-size: 12px;
   margin-top: -20px;
   z-index: 10000;

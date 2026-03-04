@@ -1,5 +1,5 @@
-import { COMMENTS_STEP } from './const';
-import { renderPack } from './utils/dom';
+import { COMMENTS_STEP } from '../const';
+import { renderPack } from '../utils/dom';
 
 const commentsList = document.querySelector('.social__comments');
 const commentsShown = document.querySelector('.social__comment-shown-count');
@@ -26,7 +26,7 @@ const createComment = ({ avatar, name, message }) => {
   return commentElement;
 };
 
-let onShowMoreCommentsClick = () => {};
+let onShowMoreCommentsClick = () => { };
 
 const createCommentsControl = (comments) => {
   let shownCommentsCount = 0;
@@ -53,7 +53,7 @@ const resetComments = () => {
   showMoreButton.classList.remove('hidden');
 
   showMoreButton.removeEventListener('click', onShowMoreCommentsClick);
-  onShowMoreCommentsClick = () => {};
+  onShowMoreCommentsClick = () => { };
 };
 
 const renderComments = (comments) => {
