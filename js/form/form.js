@@ -1,5 +1,6 @@
 import { initPopup } from '../utils/dom';
 import { createEscapeKeydownHandler, createPopupCloseButtonEnterKeydownHandler } from '../utils/listeners';
+import { initScale, resetScale } from './scale';
 import { initValidation } from './validation';
 
 const form = document.querySelector('.img-upload__form');
@@ -10,12 +11,15 @@ const formPopup = form.querySelector('.img-upload__overlay');
 const formCloseButton = form.querySelector('.img-upload__cancel');
 const overlay = form.querySelector('.img-upload__overlay');
 
+
 let pristine = null;
 
 const resetForm = () => {
   form.reset();
   imageUploadInput.value = '';
   pristine?.reset();
+
+  resetScale();
 };
 
 const onFormCloseButtonEnterKeydown = createPopupCloseButtonEnterKeydownHandler(hideForm, formCloseButton);
@@ -41,6 +45,7 @@ const initForm = () => {
   pristine = initValidation();
 
   initPopup(overlay, formCloseButton, hideForm);
+  initScale();
 
   imageUploadInput.addEventListener('change', (evt) => {
     if (evt.target.value) {

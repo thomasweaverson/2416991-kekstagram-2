@@ -1,4 +1,4 @@
-import { MAX_DESCRIPTION_LENGTH, MAX_HASHTAG_LENGTH, MAX_HASHTAGS, ValidationMessages } from '../const';
+import { ValidationParameters, ValidationMessages } from '../const';
 import { isBlank, isUnderMaxLength } from '../utils/utils';
 const form = document.querySelector('.img-upload__form');
 
@@ -18,13 +18,13 @@ const validateHashtagText = (value) => {
   if (hashtags.length === 0) {
     return true;
   }
-  const hashTagRegExp = new RegExp(`^#[a-zа-яё0-9]{1,${MAX_HASHTAG_LENGTH - 1}}$`, 'i');
+  const hashTagRegExp = new RegExp(`^#[a-zа-яё0-9]{1,${ValidationParameters.MAX_HASHTAG_LENGTH - 1}}$`, 'i');
   return hashtags.every((hashtag) => hashTagRegExp.test(hashtag));
 };
 
 const validateHashtagCount = (value) => {
   const hashtags = parseHashTags(value);
-  return hashtags.length <= MAX_HASHTAGS;
+  return hashtags.length <= ValidationParameters.MAX_HASHTAGS;
 };
 
 const validateUniqueness = (value) => {
@@ -36,7 +36,7 @@ const validateUniqueness = (value) => {
   return uniqueTags.size === hashtags.length;
 };
 
-const validateComment = (value) => isUnderMaxLength(value, MAX_DESCRIPTION_LENGTH);
+const validateComment = (value) => isUnderMaxLength(value, ValidationParameters.MAX_DESCRIPTION_LENGTH);
 
 const initValidation = () => {
   const pristine = new Pristine(
