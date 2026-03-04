@@ -1,3 +1,5 @@
+import { createHidingClickHandler } from './listeners';
+
 const findTemplateById = (id) => {
   const template = document.querySelector(`#${id}`);
   if (!template) {
@@ -24,4 +26,14 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const isEnterKey = (evt) => evt.key === 'Enter';
 
-export { findTemplateById, renderPack, isEscapeKey, isEnterKey };
+const initPopup = (overlay, closeButton, hideCB) => {
+  const onOverlayClick = createHidingClickHandler(overlay, hideCB);
+  const onCloseButtonClick = createHidingClickHandler(closeButton, hideCB);
+
+  overlay.addEventListener('click', onOverlayClick);
+  closeButton.addEventListener('click', onCloseButtonClick);
+
+};
+
+export { findTemplateById, isEnterKey, isEscapeKey, renderPack, initPopup };
+

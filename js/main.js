@@ -1,6 +1,7 @@
-import { renderGallery } from './gallery';
-import { generateMockPhotos } from './mock-photos';
-import { initDetails } from './photo-details';
+import { renderGallery } from './gallery/gallery.js';
+import { initDetails } from './photo-details/photo-details.js';
+import { initForm } from './form/form.js';
 
 initDetails();
-renderGallery(generateMockPhotos());
+renderGallery();
+initForm();

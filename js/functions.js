@@ -11,35 +11,18 @@ const parsePositiveInteger = (str) => {
   return parsed.length === 0 ? NaN : Number(parsed);
 };
 
+const toMinutes = (time) => {
+  const [hours, minutes] = time.split(':').map(Number);
+  return hours * 60 + minutes;
+};
+
 const checkMeeting = (startTime, endTime, meetingTime, meetingDuration) => {
-  const workDayStart = {
-    hours: Number(startTime.split(':')[0]),
-    minutes: Number(startTime.split(':')[1]),
-  };
+  const workStart = toMinutes(startTime);
+  const workEnd = toMinutes(endTime);
+  const meetingStart = toMinutes(meetingTime);
+  const meetingEnd = meetingStart + meetingDuration;
 
-  const workDayEnd = {
-    hours: Number(endTime.split(':')[0]),
-    minutes: Number(endTime.split(':')[1]),
-  };
-
-  const meetingStart = {
-    hours: Number(meetingTime.split(':')[0]),
-    minutes: Number(meetingTime.split(':')[1]),
-  };
-
-  const meetingEndMinutes = (meetingStart.minutes + meetingDuration) % 60;
-
-  const meetingEndHours = meetingStart.hours + Math.floor((meetingDuration + meetingStart.minutes) / 60);
-
-  const meetingEnd = {
-    hours: meetingEndHours,
-    minutes: meetingEndMinutes,
-  };
-
-  const isMeetingStartBeforeWorkDayStart = meetingStart.hours < workDayStart.hours || (meetingStart.hours === workDayStart.hours && meetingStart.minutes < workDayStart.minutes);
-  const isMeetingEndAfterWorkDayEnd = meetingEnd.hours > workDayEnd.hours || (meetingEnd.hours === workDayEnd.hours && meetingEnd.minutes > workDayEnd.minutes);
-
-  return !isMeetingStartBeforeWorkDayStart && !isMeetingEndAfterWorkDayEnd;
+  return meetingStart >= workStart && meetingEnd <= workEnd;
 };
 
 
