@@ -1,14 +1,15 @@
 import { initPopup } from '../utils/dom';
 import { createEscapeKeydownHandler, createPopupCloseButtonEnterKeydownHandler } from '../utils/listeners';
+import { initSlider, resetEffects } from './effect';
+import { initScale, resetScale } from './scale';
 import { initValidation } from './validation';
 
 const form = document.querySelector('.img-upload__form');
-
 const imageUploadInput = form.querySelector('.img-upload__input');
-
 const formPopup = form.querySelector('.img-upload__overlay');
 const formCloseButton = form.querySelector('.img-upload__cancel');
 const overlay = form.querySelector('.img-upload__overlay');
+
 
 let pristine = null;
 
@@ -16,17 +17,20 @@ const resetForm = () => {
   form.reset();
   imageUploadInput.value = '';
   pristine?.reset();
+
+  resetScale();
+  resetEffects();
 };
 
 const onFormCloseButtonEnterKeydown = createPopupCloseButtonEnterKeydownHandler(hideForm, formCloseButton);
 const onEscapeKeydown = createEscapeKeydownHandler(hideForm);
 
 function hideForm() {
+  resetForm();
   formPopup.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscapeKeydown);
   document.removeEventListener('keydown', onFormCloseButtonEnterKeydown);
-  resetForm();
 }
 
 const showForm = () => {
@@ -41,6 +45,8 @@ const initForm = () => {
   pristine = initValidation();
 
   initPopup(overlay, formCloseButton, hideForm);
+  initScale();
+  initSlider();
 
   imageUploadInput.addEventListener('change', (evt) => {
     if (evt.target.value) {
