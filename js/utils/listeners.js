@@ -1,9 +1,24 @@
 import { isEnterKey, isEscapeKey } from './dom';
 
-const createHidingClickHandler = (element, hideCallback) => (evt) => {
-  if (evt.target === element) {
+const createHidingClickHandler = (hideCallback) => (evt) => {
+  if (evt.target === evt.currentTarget) {
     hideCallback();
   }
+};
+
+const createOverlayClickHandler = (element, hideCallback) => {
+  let startedInside = false;
+
+  element.addEventListener('pointerdown', (evt) => {
+    startedInside = evt.target === element;
+  });
+
+  element.addEventListener('pointerup', (evt) => {
+    if (startedInside && evt.target === element) {
+      hideCallback();
+    }
+    startedInside = false;
+  });
 };
 
 const createEscapeKeydownHandler = (hideCallback) => (evt) => {
@@ -27,5 +42,5 @@ const createPopupCloseButtonEnterKeydownHandler = (hideCallback, popupCloseButto
     }
   };
 
-export { createEscapeKeydownHandler, createHidingClickHandler, createPopupCloseButtonEnterKeydownHandler };
+export { createEscapeKeydownHandler, createHidingClickHandler, createPopupCloseButtonEnterKeydownHandler, createOverlayClickHandler };
 

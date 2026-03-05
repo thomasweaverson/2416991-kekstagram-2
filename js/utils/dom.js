@@ -1,4 +1,4 @@
-import { createHidingClickHandler } from './listeners';
+import { createHidingClickHandler, createOverlayClickHandler } from './listeners';
 
 const findTemplateById = (id) => {
   const template = document.querySelector(`#${id}`);
@@ -27,8 +27,8 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 const isEnterKey = (evt) => evt.key === 'Enter';
 
 const initPopup = (overlay, closeButton, hideCB) => {
-  const onOverlayClick = createHidingClickHandler(overlay, hideCB);
-  const onCloseButtonClick = createHidingClickHandler(closeButton, hideCB);
+  const onOverlayClick = createOverlayClickHandler(overlay, hideCB);
+  const onCloseButtonClick = createHidingClickHandler(hideCB);
 
   overlay.addEventListener('click', onOverlayClick);
   closeButton.addEventListener('click', onCloseButtonClick);
