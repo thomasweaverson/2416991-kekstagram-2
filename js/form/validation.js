@@ -1,42 +1,18 @@
-import { ValidationParameters, ValidationMessages } from '../const';
-import { isBlank, isUnderMaxLength } from '../utils/utils';
-const form = document.querySelector('.img-upload__form');
+import { ValidationMessages } from '../const';
+import {
+  isHashTagStartsWithHash,
+  isHashtagNotEmpty,
+  isNeedSpace,
+  validateComment,
+  validateHashtagCount,
+  validateHashtagLength,
+  validateHashtagSymbols,
+  validateUniqueness
+} from './validators';
 
+const form = document.querySelector('.img-upload__form');
 const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
-
-const parseHashTags = (value) => {
-  if (isBlank(value)) {
-    return [];
-  }
-  const hashtags = value.trim().split(/\s+/).map((tag) => tag.toLowerCase());
-  return hashtags;
-};
-
-const validateHashtagText = (value) => {
-  const hashtags = parseHashTags(value);
-  if (hashtags.length === 0) {
-    return true;
-  }
-  const hashTagRegExp = new RegExp(`^#[a-zа-яё0-9]{1,${ValidationParameters.MAX_HASHTAG_LENGTH - 1}}$`, 'i');
-  return hashtags.every((hashtag) => hashTagRegExp.test(hashtag));
-};
-
-const validateHashtagCount = (value) => {
-  const hashtags = parseHashTags(value);
-  return hashtags.length <= ValidationParameters.MAX_HASHTAGS;
-};
-
-const validateUniqueness = (value) => {
-  const hashtags = parseHashTags(value);
-  if (hashtags.length === 0) {
-    return true;
-  }
-  const uniqueTags = new Set(hashtags);
-  return uniqueTags.size === hashtags.length;
-};
-
-const validateComment = (value) => isUnderMaxLength(value, ValidationParameters.MAX_DESCRIPTION_LENGTH);
 
 const initValidation = () => {
   const pristine = new Pristine(
@@ -52,8 +28,8 @@ const initValidation = () => {
 
   pristine.addValidator(
     hashtagInput,
-    validateHashtagText,
-    ValidationMessages.HASH_TAG_TEXT,
+    validateUniqueness,
+    ValidationMessages.HASH_TAG_UNIQUENESS,
     1,
     true
   );
@@ -68,9 +44,41 @@ const initValidation = () => {
 
   pristine.addValidator(
     hashtagInput,
-    validateUniqueness,
-    ValidationMessages.HASH_TAG_UNIQUENESS,
+    validateHashtagLength,
+    ValidationMessages.HASH_TAG_LENGTH,
     3,
+    true
+  );
+
+  pristine.addValidator(
+    hashtagInput,
+    validateHashtagSymbols,
+    ValidationMessages.HASH_TAG_SYMBOLS,
+    4,
+    true
+  );
+
+  pristine.addValidator(
+    hashtagInput,
+    isNeedSpace,
+    ValidationMessages.HASH_TAG_NO_SPACE,
+    5,
+    true
+  );
+
+  pristine.addValidator(
+    hashtagInput,
+    isHashtagNotEmpty,
+    ValidationMessages.HASH_TAG_EMPTY,
+    6,
+    true
+  );
+
+  pristine.addValidator(
+    hashtagInput,
+    isHashTagStartsWithHash,
+    ValidationMessages.HASH_TAG_NO_HASH,
+    7,
     true
   );
 

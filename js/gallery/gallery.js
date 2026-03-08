@@ -1,9 +1,11 @@
-import { mocks } from '../mocks/mocks.js';
+import { getData } from '../api/api.js';
 import { showDetails } from '../photo-details/photo-details.js';
-import { findTemplateById, renderPack } from '../utils/dom.js';
+import { findTemplateById, renderPack, showAlert } from '../utils/dom.js';
 
 const thumbnailTemplate = findTemplateById('picture');
 const gallery = document.querySelector('.pictures');
+
+let photos = [];
 
 const createThumbnail = ({ comments, description, likes, url, id }) => {
   const thumbnail = thumbnailTemplate.cloneNode(true);
@@ -16,7 +18,6 @@ const createThumbnail = ({ comments, description, likes, url, id }) => {
 };
 
 const onPictureClick = (evt) => {
-  const photos = mocks.getPhotos();
   const picture = evt.target.closest('.picture');
   const photoId = picture ? picture.dataset.photoId : null;
   if (photoId) {
@@ -26,9 +27,15 @@ const onPictureClick = (evt) => {
 };
 
 const renderGallery = () => {
-  const photos = mocks.getPhotos();
+  getData()
+    .then((loadedPhotos) => {
+      photos = [...loadedPhotos];
+      renderPack(photos, createThumbnail, gallery);
+    })
+    .catch(() => {
+      showAlert();
+    });
   gallery.addEventListener('click', onPictureClick);
-  renderPack(photos, createThumbnail, gallery);
 };
 
 export { renderGallery };
