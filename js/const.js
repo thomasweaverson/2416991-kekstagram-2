@@ -16,10 +16,14 @@ const ValidationParameters = {
 };
 
 const ValidationMessages = {
-  'HASH_TAG_TEXT': `Хэштег должен начинаться с #, содержать не более ${ValidationParameters.MAX_HASHTAG_LENGTH} букв или цифр`,
-  'HASH_TAG_COUNT': `Максимум ${ValidationParameters.MAX_HASHTAGS} хэштегов`,
-  'HASH_TAG_UNIQUENESS': 'Хэштеги не должны повторяться',
-  'COMMENT': `Длина комментария не может превышать  ${ValidationParameters.MAX_DESCRIPTION_LENGTH} символов`,
+  HASH_TAG_NO_HASH: 'Хэштег должен начинаться с #',
+  HASH_TAG_SYMBOLS: 'Хэштег должен состоять из букв и/или цифр',
+  HASH_TAG_EMPTY: 'Хэштег не может состоять только из решётки',
+  HASH_TAG_NO_SPACE: 'Хэштеги следует разделять пробелом',
+  HASH_TAG_LENGTH: `Хэштег должен содержать не более ${ValidationParameters.MAX_HASHTAG_LENGTH} знаков`,
+  HASH_TAG_COUNT: `Максимум ${ValidationParameters.MAX_HASHTAGS} хэштегов`,
+  HASH_TAG_UNIQUENESS: 'Хэштеги не должны повторяться',
+  COMMENT: `Длина комментария не может превышать  ${ValidationParameters.MAX_DESCRIPTION_LENGTH} символов`,
 };
 
 const ScaleParameters = {
@@ -37,15 +41,14 @@ const Effects = {
   HEAT: 'heat'
 };
 
-
 const SliderOptions = {
   [Effects.NONE]: {
     options: {
       range: {
-        min: 0,
-        max: 100,
+        min: 1,
+        max: 1,
       },
-      start: 100,
+      start: 1,
       step: 1,
       connect: 'lower',
     },
@@ -121,15 +124,10 @@ const SliderOptions = {
 
 export {
   COMMENT_ID_START_FROM,
-  COMMENTS_STEP,
-  MAX_MOCK_COMMENTS_COUNT,
+  COMMENTS_STEP, Effects, MAX_MOCK_COMMENTS_COUNT,
   MAX_MOCK_LIKES_COUNT,
   MIN_MOCK_LIKES_COUNT,
-  MOCK_PHOTOS_COUNT,
-  ValidationMessages,
-  ValidationParameters,
-  ScaleParameters,
-  Effects,
-  SliderOptions
+  MOCK_PHOTOS_COUNT, ScaleParameters, SliderOptions, ValidationMessages,
+  ValidationParameters
 };
 

@@ -12,28 +12,30 @@ let currentEffect = Effects.NONE;
 const getOptions = (effect) => SliderOptions[effect].options;
 
 const setImageStyleByEffect = (effect, value) => {
-  if (effect === 'none') {
-    image.style.filter = '';
-  } else {
-    image.style.filter = `${SliderOptions[effect].filter}(${value}${SliderOptions[effect].unit})`;
-  }
+  image.style.filter = effect === Effects.NONE ? '' : `${SliderOptions[effect].filter}(${value}${SliderOptions[effect].unit})`;
 };
 
 const initSlider = () => {
   sliderContainer.style.display = 'none';
 
-  noUiSlider.create(sliderElement, getOptions('none'));
+  noUiSlider.create(sliderElement, {
+    ...getOptions(Effects.NONE),
+    format: {
+      to: (value) => Number.isInteger(value) ? value.toFixed(0) : value.toFixed(1),
+      from: (value) => parseFloat(value),
+    },
+  });
 
   sliderElement.noUiSlider.on('update', () => {
     const value = sliderElement.noUiSlider.get();
     setImageStyleByEffect(currentEffect, value);
-    effectLevelInput.value = +value;
+    effectLevelInput.value = currentEffect === Effects.NONE ? '' : value;
   });
 
   effectButtonsList.addEventListener('change', (evt) => {
     if (evt.target.matches('input[type="radio"]')) {
       currentEffect = evt.target.value;
-      if (currentEffect === 'none') {
+      if (currentEffect === Effects.NONE) {
         sliderContainer.style.display = 'none';
         image.style.filter = '';
         effectLevelInput.value = '';

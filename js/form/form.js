@@ -10,7 +10,6 @@ const formPopup = form.querySelector('.img-upload__overlay');
 const formCloseButton = form.querySelector('.img-upload__cancel');
 const overlay = form.querySelector('.img-upload__overlay');
 
-
 let pristine = null;
 
 const resetForm = () => {
@@ -43,7 +42,6 @@ const showForm = () => {
 
 const initForm = () => {
   pristine = initValidation();
-
   initPopup(overlay, formCloseButton, hideForm);
   initScale();
   initSlider();
