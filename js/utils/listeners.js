@@ -1,4 +1,4 @@
-import { isEnterKey, isEscapeKey } from './dom';
+import { isEscapeKey } from './dom';
 
 const createHidingClickHandler = (hideCallback) => (evt) => {
   if (evt.target === evt.currentTarget) {
@@ -21,8 +21,14 @@ const createOverlayClickHandler = (element, hideCallback) => {
   });
 };
 
+const isDocumentHasShownAlert = () => {
+  const successAlert = document.querySelector('.success');
+  const errorAlert = document.querySelector('.error');
+  return !!(successAlert || errorAlert);
+};
+
 const createEscapeKeydownHandler = (hideCallback) => (evt) => {
-  if (isEscapeKey(evt)) {
+  if (isEscapeKey(evt) && !isDocumentHasShownAlert()) {
     evt.preventDefault();
     const activeElement = document.activeElement;
     const isInputFocused = activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA';
@@ -34,13 +40,6 @@ const createEscapeKeydownHandler = (hideCallback) => (evt) => {
   }
 };
 
-const createPopupCloseButtonEnterKeydownHandler = (hideCallback, popupCloseButton) =>
-  (evt) => {
-    if (isEnterKey(evt) && evt.target === popupCloseButton) {
-      evt.preventDefault();
-      hideCallback();
-    }
-  };
 
-export { createEscapeKeydownHandler, createHidingClickHandler, createPopupCloseButtonEnterKeydownHandler, createOverlayClickHandler };
+export { createEscapeKeydownHandler, createHidingClickHandler, createOverlayClickHandler };
 

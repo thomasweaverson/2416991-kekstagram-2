@@ -1,4 +1,4 @@
-import { initPopup, isEnterKey, isEscapeKey } from '../utils/dom.js';
+import { blockBodyScroll, initPopup, isEscapeKey, unblockBodyScroll } from '../utils/dom.js';
 import { renderComments, resetComments } from './comments.js';
 import { cacheUserComment, setUserComment } from './user-comment.js';
 
@@ -9,20 +9,12 @@ const detailsCloseButton = detailsElement.querySelector('.big-picture__cancel');
 
 const hideDetails = () => {
   document.removeEventListener('keydown', onEscapeKeydown);
-  document.removeEventListener('keydown', onDetailsCloseButtonEnterKeydown);
 
   detailsElement.classList.add('hidden');
-  document.body.classList.remove('modal-open');
+  unblockBodyScroll();
   resetComments();
   cacheUserComment();
 };
-
-function onDetailsCloseButtonEnterKeydown(evt) {
-  if (isEnterKey(evt) && evt.target === detailsCloseButton) {
-    evt.preventDefault();
-    hideDetails();
-  }
-}
 
 function onEscapeKeydown(evt) {
   if (isEscapeKey(evt)) {
@@ -48,10 +40,9 @@ const renderDetails = ({ url, description, likes, comments }) => {
 
 const showDetails = (photo) => {
   detailsElement.classList.remove('hidden');
-  document.body.classList.add('modal-open');
+  blockBodyScroll();
 
   document.addEventListener('keydown', onEscapeKeydown);
-  document.addEventListener('keydown', onDetailsCloseButtonEnterKeydown);
 
   renderDetails(photo);
   renderComments(photo.comments);

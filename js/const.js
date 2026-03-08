@@ -1,11 +1,24 @@
-const MOCK_PHOTOS_COUNT = 25;
+const NOTICE_SHOW_TIME = 5000;
 
-const MAX_MOCK_COMMENTS_COUNT = 30;
+const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
 
-const MIN_MOCK_LIKES_COUNT = 15;
-const MAX_MOCK_LIKES_COUNT = 200;
+const Route = {
+  GET_DATA: '/data',
+  SEND_DATA: '/',
+};
+const Method = {
+  GET: 'GET',
+  POST: 'POST',
+};
+const ErrorText = {
+  GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
+  SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз',
+};
 
-const COMMENT_ID_START_FROM = 135;
+const SubmitButtonText = {
+  IDLE: 'Опубликовать',
+  SENDING: 'Публикуется...',
+};
 
 const COMMENTS_STEP = 5;
 
@@ -123,11 +136,17 @@ const SliderOptions = {
 };
 
 export {
-  COMMENT_ID_START_FROM,
-  COMMENTS_STEP, Effects, MAX_MOCK_COMMENTS_COUNT,
-  MAX_MOCK_LIKES_COUNT,
-  MIN_MOCK_LIKES_COUNT,
-  MOCK_PHOTOS_COUNT, ScaleParameters, SliderOptions, ValidationMessages,
-  ValidationParameters
+  NOTICE_SHOW_TIME,
+  COMMENTS_STEP,
+  Effects,
+  ScaleParameters,
+  SliderOptions,
+  ValidationMessages,
+  ValidationParameters,
+  BASE_URL,
+  Route,
+  Method,
+  ErrorText,
+  SubmitButtonText
 };
 
