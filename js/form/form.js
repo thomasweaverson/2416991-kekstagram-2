@@ -1,6 +1,6 @@
 import { sendData } from '../api/api';
-import { SubmitButtonText } from '../const';
-import { blockBodyScroll, initPopup, unblockBodyScroll } from '../utils/dom';
+import { FILE_TYPES, SubmitButtonText, WRONG_FILE_TYPE } from '../const';
+import { blockBodyScroll, initPopup, showAlert, unblockBodyScroll } from '../utils/dom';
 import { createEscapeKeydownHandler } from '../utils/listeners';
 import { initSlider, resetEffects } from './effect';
 import { initScale, resetScale } from './scale';
@@ -13,6 +13,7 @@ const formPopup = form.querySelector('.img-upload__overlay');
 const formCloseButton = form.querySelector('.img-upload__cancel');
 const submitButton = form.querySelector('.img-upload__submit');
 const overlay = form.querySelector('.img-upload__overlay');
+const image = form.querySelector('.img-upload__preview img');
 
 let pristine = null;
 
@@ -86,7 +87,16 @@ const initForm = () => {
 
   imageUploadInput.addEventListener('change', (evt) => {
     if (evt.target.value) {
-      showForm();
+      const file = imageUploadInput.files[0];
+      const fileName = file.name.toLowerCase();
+
+      const matches = FILE_TYPES.some((extension) => fileName.endsWith(extension));
+      if (matches) {
+        image.src = URL.createObjectURL(file);
+        showForm();
+      } else {
+        showAlert(WRONG_FILE_TYPE);
+      }
     }
   });
 

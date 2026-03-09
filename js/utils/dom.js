@@ -41,9 +41,14 @@ const initPopup = (overlay, closeButton, hideCB) => {
   closeButton.addEventListener('click', onCloseButtonClick);
 };
 
-const showAlert = () => {
+const showAlert = (text = null) => {
   const template = findTemplateById('data-error');
   const notice = template.cloneNode(true);
+  const title = notice.querySelector('.data-error__title');
+
+  if (text) {
+    title.textContent = text;
+  }
   document.body.appendChild(notice);
   setTimeout(() => {
     notice.remove();
