@@ -2,38 +2,32 @@ const commentInput = document.querySelector('.social__footer-text');
 
 const userCommentValuesMap = new Map();
 
-const findCurrentPhoto = (map) => {
-  for (const [photo, value] of map) {
-    if (value.isCurrent) {
-      return photo;
-    }
-  }
-  return null;
-};
+let currentPhoto = null;
 
 const setUserComment = (photo) => {
-  const isPhotoInCache = userCommentValuesMap.has(photo);
+  currentPhoto = photo;
 
-  if (!isPhotoInCache) {
-    userCommentValuesMap.set(photo, { comment: '', isCurrent: true });
-  } else {
-    userCommentValuesMap.set(photo, { comment: userCommentValuesMap.get(photo).comment, isCurrent: true });
+  if (!userCommentValuesMap.has(photo)) {
+    userCommentValuesMap.set(photo, '');
   }
 
-  const currentCommentValue = userCommentValuesMap.get(photo).comment;
-  commentInput.value = currentCommentValue;
+  commentInput.value = userCommentValuesMap.get(photo);
 };
 
 const cacheUserComment = () => {
-  const currentComment = commentInput.value;
-  if (currentComment === '') {
+  if (!currentPhoto) {
     return;
   }
 
-  const currentPhoto = findCurrentPhoto(userCommentValuesMap);
-  if (currentPhoto) {
-    userCommentValuesMap.set(currentPhoto, { comment: currentComment, isCurrent: false });
+  const currentComment = commentInput.value;
+
+  if (currentComment === '') {
+    userCommentValuesMap.delete(currentPhoto);
+    return;
   }
+
+  userCommentValuesMap.set(currentPhoto, currentComment);
 };
 
-export { setUserComment, cacheUserComment };
+export { cacheUserComment, setUserComment };
+
