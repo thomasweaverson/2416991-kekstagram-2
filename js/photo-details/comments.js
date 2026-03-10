@@ -1,4 +1,4 @@
-import { COMMENTS_STEP } from '../const';
+import { COMMENTS_STEP } from '../const/const';
 import { renderPack } from '../utils/dom';
 
 const commentsList = document.querySelector('.social__comments');

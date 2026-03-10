@@ -1,4 +1,4 @@
-import { Effects, SliderOptions } from '../const.js';
+import { Effects, SliderOptions } from '../const/form-const.js';
 
 const form = document.querySelector('.img-upload__form');
 const sliderContainer = form.querySelector('.img-upload__effect-level');

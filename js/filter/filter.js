@@ -1,4 +1,4 @@
-import { ACTIVE_FILTER_CLASS, Filters, RANDOM_PHOTOS_COUNT } from '../const';
+import { ACTIVE_FILTER_CLASS, Filters, RANDOM_PHOTOS_COUNT } from '../const/filter-const.js';
 import { getPhotos, renderPhotos } from '../gallery/gallery';
 import { debounce, getRandomElementsFromArray } from '../utils/utils';
 

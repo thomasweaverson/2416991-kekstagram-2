@@ -1,7 +1,9 @@
 import { sendData } from '../api/api';
-import { FILE_TYPES, SubmitButtonText, WRONG_FILE_TYPE } from '../const';
+import { SubmitButtonText } from '../const/form-const';
+import { FILE_TYPES, WRONG_FILE_TYPE } from '../const/validation-const';
 import { blockBodyScroll, initPopup, showAlert, unblockBodyScroll } from '../utils/dom';
 import { createEscapeKeydownHandler } from '../utils/listeners';
+import { normalizeSpaces } from '../utils/utils';
 import { initSlider, resetEffects } from './effect';
 import { initScale, resetScale } from './scale';
 import { showNotice } from './show-notice';
@@ -16,6 +18,14 @@ const overlay = form.querySelector('.img-upload__overlay');
 const image = form.querySelector('.img-upload__preview img');
 
 let pristine = null;
+
+const getFormData = (formElement) => {
+  const formSummary = new FormData(formElement);
+  const hashtags = formSummary.get('hashtags');
+  const normalizedHashtags = normalizeSpaces(hashtags);
+  formSummary.set('hashtags', normalizedHashtags);
+  return formSummary;
+};
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;
@@ -71,7 +81,7 @@ const setFormSubmit = (onSuccess, onError) => {
     const isValid = pristine?.validate();
     if (isValid) {
       blockSubmitButton();
-      sendData(new FormData(evt.target))
+      sendData(getFormData(form))
         .then(onSuccess)
         .catch(onError)
         .finally(unblockSubmitButton);
@@ -93,6 +103,7 @@ const initForm = () => {
       const matches = FILE_TYPES.some((extension) => fileName.endsWith(extension));
       if (matches) {
         image.src = URL.createObjectURL(file);
+        imageUploadInput.blur();
         showForm();
       } else {
         showAlert(WRONG_FILE_TYPE);

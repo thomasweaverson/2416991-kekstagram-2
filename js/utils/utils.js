@@ -1,17 +1,10 @@
-import { RERENDER_DELAY } from '../const';
+import { RERENDER_DELAY } from '../const/filter-const';
 
 const isUnderMaxLength = (str, maxLength) => str.length <= maxLength;
 
-const createIdCounter = (start = 1) => {
-  let counter = start;
-  return () => counter++;
-};
-
-const getRandomIntegerFromInterval = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
-
-const getRandomElementFromArray = (arr) => arr[getRandomIntegerFromInterval(0, arr.length - 1)];
-
 const shuffleArray = (arr) => arr.sort(() => Math.random() - 0.5);
+
+const normalizeSpaces = (str) => str.trim().replace(/\s+/g, ' ');
 
 const getRandomElementsFromArray = (arr, count) => {
   const shuffled = shuffleArray(arr);
@@ -29,12 +22,10 @@ const debounce = (fn, delay = RERENDER_DELAY) => {
 };
 
 export {
-  createIdCounter,
   debounce,
-  getRandomElementFromArray,
   getRandomElementsFromArray,
-  getRandomIntegerFromInterval,
   isBlank,
-  isUnderMaxLength
+  isUnderMaxLength,
+  normalizeSpaces
 };
 

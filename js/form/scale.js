@@ -1,4 +1,4 @@
-import { ScaleParameters } from '../const.js';
+import { ScaleParameters } from '../const/form-const.js';
 
 const increaseScaleButton = document.querySelector('.scale__control--bigger');
 const decreaseScaleButton = document.querySelector('.scale__control--smaller');

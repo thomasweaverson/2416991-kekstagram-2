@@ -1,4 +1,4 @@
-import { NOTICE_SHOW_TIME } from '../const';
+import { NOTICE_SHOW_TIME } from '../const/api-const';
 import { createHidingClickHandler, createOverlayClickHandler } from './listeners';
 
 const findTemplateById = (id) => {
