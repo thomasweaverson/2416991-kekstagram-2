@@ -147,12 +147,17 @@ const Filters = {
 
 const RERENDER_DELAY = 500;
 
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+const WRONG_FILE_TYPE = `Допустимые форматы: ${FILE_TYPES.join(', ')}`;
+
 export {
   ACTIVE_FILTER_CLASS,
   BASE_URL,
   COMMENTS_STEP,
   Effects,
   ErrorText,
+  FILE_TYPES,
   Filters,
   Method,
   NOTICE_SHOW_TIME,
@@ -163,6 +168,7 @@ export {
   SliderOptions,
   SubmitButtonText,
   ValidationMessages,
-  ValidationParameters
+  ValidationParameters,
+  WRONG_FILE_TYPE
 };
 
