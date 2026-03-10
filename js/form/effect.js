@@ -45,6 +45,7 @@ const initSlider = () => {
         sliderElement.noUiSlider.updateOptions(options);
         sliderElement.noUiSlider.set(options.start);
       }
+      evt.target.blur();
     }
   });
 };

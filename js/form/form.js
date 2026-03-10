@@ -16,6 +16,7 @@ const formCloseButton = form.querySelector('.img-upload__cancel');
 const submitButton = form.querySelector('.img-upload__submit');
 const overlay = form.querySelector('.img-upload__overlay');
 const image = form.querySelector('.img-upload__preview img');
+const effectsList = form.querySelector('.effects__list');
 
 let pristine = null;
 
@@ -68,10 +69,35 @@ function hideForm() {
 }
 
 const showForm = () => {
+  imageUploadInput.blur();
   formPopup.classList.remove('hidden');
   blockBodyScroll();
 
   document.addEventListener('keydown', onEscapeKeydown);
+};
+
+const setImageUploadInputChangeHandler = () => {
+  imageUploadInput.addEventListener('change', (evt) => {
+    if (evt.target.value) {
+      const file = imageUploadInput.files[0];
+      const fileName = file.name.toLowerCase();
+
+      const matches = FILE_TYPES.some((extension) => fileName.endsWith(extension));
+      if (matches) {
+        const url = URL.createObjectURL(file);
+        image.src = url;
+
+        const effectPreviews = effectsList.querySelectorAll('.effects__preview');
+        effectPreviews.forEach((preview) => {
+          preview.style.backgroundImage = `url('${url}')`;
+        });
+
+        showForm();
+      } else {
+        showAlert(WRONG_FILE_TYPE);
+      }
+    }
+  });
 };
 
 const setFormSubmit = (onSuccess, onError) => {
@@ -95,24 +121,8 @@ const initForm = () => {
   initScale();
   initSlider();
 
-  imageUploadInput.addEventListener('change', (evt) => {
-    if (evt.target.value) {
-      const file = imageUploadInput.files[0];
-      const fileName = file.name.toLowerCase();
-
-      const matches = FILE_TYPES.some((extension) => fileName.endsWith(extension));
-      if (matches) {
-        image.src = URL.createObjectURL(file);
-        imageUploadInput.blur();
-        showForm();
-      } else {
-        showAlert(WRONG_FILE_TYPE);
-      }
-    }
-  });
-
+  setImageUploadInputChangeHandler();
   setFormSubmit(onFormSubmitSuccess, onFormSubmitError);
-
 };
 
 export { initForm };
