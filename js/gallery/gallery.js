@@ -3,8 +3,8 @@ import { initFilter } from '../filter/filter.js';
 import { showDetails } from '../photo-details/photo-details.js';
 import { findTemplateById, renderPack, showAlert } from '../utils/dom.js';
 
-const thumbnailTemplate = findTemplateById('picture');
 const gallery = document.querySelector('.pictures');
+const thumbnailTemplate = findTemplateById('picture');
 
 let photos = [];
 
@@ -21,13 +21,16 @@ const createThumbnail = ({ comments, description, likes, url, id }) => {
 };
 
 const onPictureClick = (evt) => {
-  const picture = evt.target.closest('.picture');
-  const photoId = picture ? picture.dataset.photoId : null;
-  if (photoId) {
+  if (evt.target.tagName === 'IMG' && evt.target.closest('a.picture')) {
     evt.preventDefault();
-    showDetails(photos.find((photo) => photo.id === Number(photoId)));
+    const picture = evt.target.closest('.picture');
+    const photoId = picture ? picture.dataset.photoId : null;
+    if (photoId) {
+      showDetails(photos.find((photo) => photo.id === Number(photoId)));
+    }
   }
 };
+
 const clearGallery = () => {
   const pictures = gallery.querySelectorAll('.picture');
   for (const picture of pictures) {

@@ -1,6 +1,6 @@
 import { ACTIVE_FILTER_CLASS, Filters, RANDOM_PHOTOS_COUNT } from '../const/filter-const.js';
 import { getPhotos, renderPhotos } from '../gallery/gallery';
-import { debounce, getRandomElementsFromArray } from '../utils/utils';
+import { debounce, getRandomElementsFromArray, memoize } from '../utils/utils';
 
 const filterBlock = document.querySelector('.img-filters');
 
@@ -10,19 +10,10 @@ const getRandomPhotos = () => {
   return randomPhotos;
 };
 
-const getSortedByCommentsPhotos = (() => {
-  let sorted = null;
-  return () => {
-    if (sorted) {
-      return sorted;
-    }
-    sorted = getPhotos().sort((a, b) => b.comments.length - a.comments.length);
-    return sorted;
-  };
-})();
+const getSortedByCommentsPhotos = memoize(() => getPhotos().sort((a, b) => b.comments.length - a.comments.length));
 
-const getPhotosByFilter = (filterId) => {
-  switch (filterId) {
+const getPhotosByFilter = (filter) => {
+  switch (filter) {
     case Filters.DEFAULT:
       return getPhotos();
     case Filters.RANDOM:
@@ -34,16 +25,20 @@ const getPhotosByFilter = (filterId) => {
   }
 };
 
-const renderFilteredPhotos = (filterId) => {
-  renderPhotos(getPhotosByFilter(filterId));
+const renderFilteredPhotos = (filter) => {
+  renderPhotos(getPhotosByFilter(filter));
 };
 
-const debouncedRenderFilteredPhotos = debounce(renderFilteredPhotos);
+const renderFilteredPhotosWithDebounce = debounce(renderFilteredPhotos);
 
 const initFilter = () => {
   filterBlock.classList.remove('img-filters--inactive');
 
   filterBlock.addEventListener('click', (evt) => {
+    if (!evt.target.classList.contains('img-filters__button')) {
+      return;
+    }
+
     const target = evt.target.closest('.img-filters__button');
     if (target.classList.contains(ACTIVE_FILTER_CLASS)) {
       return;
@@ -54,7 +49,7 @@ const initFilter = () => {
     target.classList.add(ACTIVE_FILTER_CLASS);
 
     const currentFilter = target.id;
-    debouncedRenderFilteredPhotos(currentFilter);
+    renderFilteredPhotosWithDebounce(currentFilter);
   });
 };
 

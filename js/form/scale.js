@@ -11,27 +11,44 @@ const setScaleInputValue = (scale) => {
 
 const getScaleInputValue = () => parseInt(scaleInput.value, 10);
 
+const createScaleHandler = (operation) => () => {
+  const currentScale = getScaleInputValue();
+  const { MAX_SCALE, MIN_SCALE, STEP } = ScaleParameters;
+
+  const operations = {
+    increase: () => Math.min(currentScale + STEP, MAX_SCALE),
+    decrease: () => Math.max(currentScale - STEP, MIN_SCALE)
+  };
+
+  const newScale = operations[operation]();
+
+  if (newScale !== currentScale) {
+    setScaleInputValue(newScale);
+    image.style.transform = `scale(${newScale / 100})`;
+  }
+};
+
+
+const onIncreaseScaleButtonClick = createScaleHandler('increase');
+const onDecreaseScaleButtonClick = createScaleHandler('decrease');
+
+const setIncreaseScaleButtonClickHandler = () => {
+  increaseScaleButton.addEventListener('click', onIncreaseScaleButtonClick);
+};
+
+const setDecreaseScaleButtonClickHandler = () => {
+  decreaseScaleButton.addEventListener('click', onDecreaseScaleButtonClick);
+};
+
+
 const initScale = () => {
   setScaleInputValue(ScaleParameters.MAX_SCALE);
   const scaleValue = getScaleInputValue() / 100;
 
   image.style.transform = `scale(${scaleValue})`;
 
-  increaseScaleButton.addEventListener('click', () => {
-    const currentScale = getScaleInputValue();
-    if (currentScale < ScaleParameters.MAX_SCALE) {
-      setScaleInputValue(currentScale + ScaleParameters.STEP_SCALE);
-      image.style.transform = `scale(${getScaleInputValue() / 100})`;
-    }
-  });
-
-  decreaseScaleButton.addEventListener('click', () => {
-    const currentScale = getScaleInputValue();
-    if (currentScale > ScaleParameters.MIN_SCALE) {
-      setScaleInputValue(currentScale - ScaleParameters.STEP_SCALE);
-      image.style.transform = `scale(${getScaleInputValue() / 100})`;
-    }
-  });
+  setIncreaseScaleButtonClickHandler();
+  setDecreaseScaleButtonClickHandler();
 };
 
 const resetScale = () => {

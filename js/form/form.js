@@ -1,5 +1,5 @@
 import { sendData } from '../api/api';
-import { SubmitButtonText } from '../const/form-const';
+import { SubmitButtonLabels } from '../const/form-const';
 import { FILE_TYPES, WRONG_FILE_TYPE } from '../const/validation-const';
 import { blockBodyScroll, initPopup, showAlert, unblockBodyScroll } from '../utils/dom';
 import { createEscapeKeydownHandler } from '../utils/listeners';
@@ -30,12 +30,12 @@ const getFormData = (formElement) => {
 
 const blockSubmitButton = () => {
   submitButton.disabled = true;
-  submitButton.textContent = SubmitButtonText.SENDING;
+  submitButton.textContent = SubmitButtonLabels.SENDING;
 };
 
 const unblockSubmitButton = () => {
   submitButton.disabled = false;
-  submitButton.textContent = SubmitButtonText.IDLE;
+  submitButton.textContent = SubmitButtonLabels.IDLE;
 };
 
 const resetForm = () => {

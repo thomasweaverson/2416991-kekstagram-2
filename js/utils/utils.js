@@ -21,11 +21,22 @@ const debounce = (fn, delay = RERENDER_DELAY) => {
   };
 };
 
+const memoize = (fn) => {
+  let cached;
+  return () => {
+    if (!cached) {
+      cached = fn();
+    }
+    return cached;
+  };
+};
+
 export {
   debounce,
   getRandomElementsFromArray,
   isBlank,
   isUnderMaxLength,
-  normalizeSpaces
+  normalizeSpaces,
+  memoize
 };
 

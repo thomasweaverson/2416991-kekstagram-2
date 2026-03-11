@@ -1,10 +1,10 @@
 const ScaleParameters = {
   MIN_SCALE: 25,
   MAX_SCALE: 100,
-  STEP_SCALE: 25
+  STEP: 25
 };
 
-const Effects = {
+const Effect = {
   NONE: 'none',
   CHROME: 'chrome',
   SEPIA: 'sepia',
@@ -14,7 +14,7 @@ const Effects = {
 };
 
 const SliderOptions = {
-  [Effects.NONE]: {
+  [Effect.NONE]: {
     options: {
       range: {
         min: 1,
@@ -27,7 +27,7 @@ const SliderOptions = {
     unit: '',
     filter: null,
   },
-  [Effects.CHROME]: {
+  [Effect.CHROME]: {
     options: {
       range: {
         min: 0,
@@ -40,7 +40,7 @@ const SliderOptions = {
     unit: '',
     filter: 'grayscale',
   },
-  [Effects.SEPIA]: {
+  [Effect.SEPIA]: {
     options: {
       range: {
         min: 0,
@@ -53,7 +53,7 @@ const SliderOptions = {
     unit: '',
     filter: 'sepia',
   },
-  [Effects.MARVIN]: {
+  [Effect.MARVIN]: {
     options: {
       range: {
         min: 0,
@@ -66,7 +66,7 @@ const SliderOptions = {
     unit: '%',
     filter: 'invert',
   },
-  [Effects.PHOBOS]: {
+  [Effect.PHOBOS]: {
     options: {
       range: {
         min: 0,
@@ -79,7 +79,7 @@ const SliderOptions = {
     unit: 'px',
     filter: 'blur',
   },
-  [Effects.HEAT]: {
+  [Effect.HEAT]: {
     options: {
       range: {
         min: 1,
@@ -94,10 +94,10 @@ const SliderOptions = {
   }
 };
 
-const SubmitButtonText = {
+const SubmitButtonLabels = {
   IDLE: 'Опубликовать',
   SENDING: 'Публикуется...',
 };
 
-export { Effects, ScaleParameters, SliderOptions, SubmitButtonText };
+export { Effect, ScaleParameters, SliderOptions, SubmitButtonLabels };
 
