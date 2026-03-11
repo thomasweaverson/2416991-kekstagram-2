@@ -19,7 +19,7 @@ const cacheUserComment = () => {
     return;
   }
 
-  const currentComment = commentInput.value;
+  const currentComment = commentInput.value.trim();
 
   if (currentComment === '') {
     userCommentValuesMap.delete(currentPhoto);

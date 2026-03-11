@@ -1,4 +1,5 @@
-import { BASE_URL, ErrorText, Method, Route } from '../const.js';
+import { BASE_URL, ErrorText, Method, Route } from '../const/api-const';
+
 const load = (route, errorText, method = Method.GET, body = null) =>
   fetch(`${BASE_URL}${route}`, { method, body })
     .then((response) => {

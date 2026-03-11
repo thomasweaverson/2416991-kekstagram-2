@@ -1,7 +1,9 @@
 import { sendData } from '../api/api';
-import { FILE_TYPES, SubmitButtonText, WRONG_FILE_TYPE } from '../const';
+import { SubmitButtonLabels } from '../const/form-const';
+import { FILE_TYPES, WRONG_FILE_TYPE } from '../const/validation-const';
 import { blockBodyScroll, initPopup, showAlert, unblockBodyScroll } from '../utils/dom';
 import { createEscapeKeydownHandler } from '../utils/listeners';
+import { normalizeSpaces } from '../utils/utils';
 import { initSlider, resetEffects } from './effect';
 import { initScale, resetScale } from './scale';
 import { showNotice } from './show-notice';
@@ -14,17 +16,26 @@ const formCloseButton = form.querySelector('.img-upload__cancel');
 const submitButton = form.querySelector('.img-upload__submit');
 const overlay = form.querySelector('.img-upload__overlay');
 const image = form.querySelector('.img-upload__preview img');
+const effectsList = form.querySelector('.effects__list');
 
 let pristine = null;
 
+const getFormData = (formElement) => {
+  const formSummary = new FormData(formElement);
+  const hashtags = formSummary.get('hashtags');
+  const normalizedHashtags = normalizeSpaces(hashtags);
+  formSummary.set('hashtags', normalizedHashtags);
+  return formSummary;
+};
+
 const blockSubmitButton = () => {
   submitButton.disabled = true;
-  submitButton.textContent = SubmitButtonText.SENDING;
+  submitButton.textContent = SubmitButtonLabels.SENDING;
 };
 
 const unblockSubmitButton = () => {
   submitButton.disabled = false;
-  submitButton.textContent = SubmitButtonText.IDLE;
+  submitButton.textContent = SubmitButtonLabels.IDLE;
 };
 
 const resetForm = () => {
@@ -58,10 +69,35 @@ function hideForm() {
 }
 
 const showForm = () => {
+  imageUploadInput.blur();
   formPopup.classList.remove('hidden');
   blockBodyScroll();
 
   document.addEventListener('keydown', onEscapeKeydown);
+};
+
+const setImageUploadInputChangeHandler = () => {
+  imageUploadInput.addEventListener('change', (evt) => {
+    if (evt.target.value) {
+      const file = imageUploadInput.files[0];
+      const fileName = file.name.toLowerCase();
+
+      const matches = FILE_TYPES.some((extension) => fileName.endsWith(extension));
+      if (matches) {
+        const url = URL.createObjectURL(file);
+        image.src = url;
+
+        const effectPreviews = effectsList.querySelectorAll('.effects__preview');
+        effectPreviews.forEach((preview) => {
+          preview.style.backgroundImage = `url('${url}')`;
+        });
+
+        showForm();
+      } else {
+        showAlert(WRONG_FILE_TYPE);
+      }
+    }
+  });
 };
 
 const setFormSubmit = (onSuccess, onError) => {
@@ -71,7 +107,7 @@ const setFormSubmit = (onSuccess, onError) => {
     const isValid = pristine?.validate();
     if (isValid) {
       blockSubmitButton();
-      sendData(new FormData(evt.target))
+      sendData(getFormData(form))
         .then(onSuccess)
         .catch(onError)
         .finally(unblockSubmitButton);
@@ -85,23 +121,8 @@ const initForm = () => {
   initScale();
   initSlider();
 
-  imageUploadInput.addEventListener('change', (evt) => {
-    if (evt.target.value) {
-      const file = imageUploadInput.files[0];
-      const fileName = file.name.toLowerCase();
-
-      const matches = FILE_TYPES.some((extension) => fileName.endsWith(extension));
-      if (matches) {
-        image.src = URL.createObjectURL(file);
-        showForm();
-      } else {
-        showAlert(WRONG_FILE_TYPE);
-      }
-    }
-  });
-
+  setImageUploadInputChangeHandler();
   setFormSubmit(onFormSubmitSuccess, onFormSubmitError);
-
 };
 
 export { initForm };
