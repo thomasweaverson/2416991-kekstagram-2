@@ -2,7 +2,7 @@ import { ACTIVE_FILTER_CLASS, Filters, RANDOM_PHOTOS_COUNT } from '../const/filt
 import { getPhotos, renderPhotos } from '../gallery/gallery';
 import { debounce, getRandomElementsFromArray, memoize } from '../utils/utils';
 
-const filterBlock = document.querySelector('.img-filters');
+const filterElement = document.querySelector('.img-filters');
 
 const getRandomPhotos = () => {
   const photos = getPhotos();
@@ -32,9 +32,9 @@ const renderFilteredPhotos = (filter) => {
 const renderFilteredPhotosWithDebounce = debounce(renderFilteredPhotos);
 
 const initFilter = () => {
-  filterBlock.classList.remove('img-filters--inactive');
+  filterElement.classList.remove('img-filters--inactive');
 
-  filterBlock.addEventListener('click', (evt) => {
+  filterElement.addEventListener('click', (evt) => {
     if (!evt.target.classList.contains('img-filters__button')) {
       return;
     }
@@ -44,7 +44,7 @@ const initFilter = () => {
       return;
     }
 
-    const prevActiveButton = filterBlock.querySelector(`.${ACTIVE_FILTER_CLASS}`);
+    const prevActiveButton = filterElement.querySelector(`.${ACTIVE_FILTER_CLASS}`);
     prevActiveButton.classList.remove(ACTIVE_FILTER_CLASS);
     target.classList.add(ACTIVE_FILTER_CLASS);
 

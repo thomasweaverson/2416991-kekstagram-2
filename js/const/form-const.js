@@ -1,6 +1,6 @@
 const ScaleParameters = {
-  MIN_SCALE: 25,
-  MAX_SCALE: 100,
+  MIN: 25,
+  MAX: 100,
   STEP: 25
 };
 
