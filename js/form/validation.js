@@ -1,4 +1,4 @@
-import { ValidationMessages } from '../const';
+import { ValidationMessages } from '../const/validation-const.js';
 import {
   isHashTagStartsWithHash,
   isHashtagNotEmpty,

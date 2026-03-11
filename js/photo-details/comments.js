@@ -1,9 +1,10 @@
-import { COMMENTS_STEP } from '../const';
+import { COMMENTS_STEP } from '../const/const';
 import { renderPack } from '../utils/dom';
 
-const commentsList = document.querySelector('.social__comments');
-const commentsShown = document.querySelector('.social__comment-shown-count');
-const showMoreButton = document.querySelector('.social__comments-loader');
+const commentsElement = document.querySelector('.big-picture__social');
+const commentsList = commentsElement.querySelector('.social__comments');
+const commentsShown = commentsElement.querySelector('.social__comment-shown-count');
+const showMoreButton = commentsElement.querySelector('.social__comments-loader');
 
 const createComment = ({ avatar, name, message }) => {
   const commentElement = document.createElement('li');

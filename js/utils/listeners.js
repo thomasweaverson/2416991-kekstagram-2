@@ -1,8 +1,8 @@
 import { isEscapeKey } from './dom';
 
-const createHidingClickHandler = (hideCallback) => (evt) => {
+const createHidingClickHandler = (hidingCallback) => (evt) => {
   if (evt.target === evt.currentTarget) {
-    hideCallback();
+    hidingCallback();
   }
 };
 
@@ -27,7 +27,7 @@ const isDocumentHasShownAlert = () => {
   return !!(successAlert || errorAlert);
 };
 
-const createEscapeKeydownHandler = (hideCallback) => (evt) => {
+const createEscapeKeydownHandler = (hidingCallback) => (evt) => {
   if (isEscapeKey(evt) && !isDocumentHasShownAlert()) {
     evt.preventDefault();
     const activeElement = document.activeElement;
@@ -36,7 +36,7 @@ const createEscapeKeydownHandler = (hideCallback) => (evt) => {
       activeElement.blur();
       return;
     }
-    hideCallback();
+    hidingCallback();
   }
 };
 

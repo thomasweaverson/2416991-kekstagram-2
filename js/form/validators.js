@@ -1,4 +1,4 @@
-import { ValidationParameters } from '../const';
+import { ValidationParameters } from '../const/validation-const.js';
 import { isBlank, isUnderMaxLength } from '../utils/utils';
 
 const parseHashTags = (value) => {
