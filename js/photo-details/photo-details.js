@@ -1,4 +1,4 @@
-import { blockBodyScroll, initPopup, isEscapeKey, unblockBodyScroll } from '../utils/dom.js';
+import { setBodyScrollLock, initPopup, isEscapeKey } from '../utils/dom.js';
 import { renderComments, resetComments } from './comments.js';
 import { cacheUserComment, setUserComment } from './user-comment.js';
 
@@ -11,7 +11,7 @@ const hideDetails = () => {
   document.removeEventListener('keydown', onEscapeKeydown);
 
   detailsElement.classList.add('hidden');
-  unblockBodyScroll();
+  setBodyScrollLock(false);
   resetComments();
   cacheUserComment();
 };
@@ -40,7 +40,7 @@ const renderDetails = ({ url, description, likes, comments }) => {
 
 const showDetails = (photo) => {
   detailsElement.classList.remove('hidden');
-  blockBodyScroll();
+  setBodyScrollLock(true);
 
   document.addEventListener('keydown', onEscapeKeydown);
 

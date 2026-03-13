@@ -1,6 +1,6 @@
 import { ACTIVE_FILTER_CLASS, Filters, RANDOM_PHOTOS_COUNT } from '../const/filter-const.js';
-import { getPhotos, renderPhotos } from '../gallery/gallery';
-import { debounce, getRandomElementsFromArray, memoize } from '../utils/utils';
+import { getPhotos, renderPhotos } from '../gallery/gallery.js';
+import { debounce, getRandomElementsFromArray, memoize } from '../utils/utils.js';
 
 const filterElement = document.querySelector('.img-filters');
 

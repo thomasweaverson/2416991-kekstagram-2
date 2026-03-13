@@ -1,5 +1,5 @@
-import { COMMENTS_STEP } from '../const/const';
-import { renderPack } from '../utils/dom';
+import { COMMENTS_STEP } from '../const/const.js';
+import { renderPack } from '../utils/dom.js';
 
 const commentsElement = document.querySelector('.big-picture__social');
 const commentsList = commentsElement.querySelector('.social__comments');

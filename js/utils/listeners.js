@@ -1,4 +1,4 @@
-import { isEscapeKey } from './dom';
+import { isEscapeKey } from './dom.js';
 
 const createHidingClickHandler = (hidingCallback) => (evt) => {
   if (evt.target === evt.currentTarget) {
