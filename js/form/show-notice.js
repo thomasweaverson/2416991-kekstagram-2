@@ -1,4 +1,4 @@
-import { findTemplateById, isEscapeKey } from '../utils/dom';
+import { findTemplateById, isEscapeKey } from '../utils/dom.js';
 
 const createNotice = (isSuccess) => {
   const template = findTemplateById(isSuccess ? 'success' : 'error');

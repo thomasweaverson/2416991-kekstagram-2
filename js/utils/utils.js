@@ -1,4 +1,4 @@
-import { RERENDER_DELAY } from '../const/filter-const';
+import { RERENDER_DELAY } from '../const/filter-const.js';
 
 const isUnderMaxLength = (str, maxLength) => str.length <= maxLength;
 

@@ -1,13 +1,13 @@
-import { sendData } from '../api/api';
-import { SubmitButtonLabels } from '../const/form-const';
-import { FILE_TYPES, WRONG_FILE_TYPE } from '../const/validation-const';
-import { blockBodyScroll, initPopup, showAlert, unblockBodyScroll } from '../utils/dom';
-import { createEscapeKeydownHandler } from '../utils/listeners';
-import { normalizeSpaces } from '../utils/utils';
-import { initSlider, resetEffects } from './effect';
-import { initScale, resetScale } from './scale';
-import { showNotice } from './show-notice';
-import { initValidation } from './validation';
+import { sendData } from '../api/api.js';
+import { SubmitButtonLabels } from '../const/form-const.js';
+import { FILE_TYPES, WRONG_FILE_TYPE } from '../const/validation-const.js';
+import { setBodyScrollLock, initPopup, showAlert } from '../utils/dom.js';
+import { createEscapeKeydownHandler } from '../utils/listeners.js';
+import { normalizeSpaces } from '../utils/utils.js';
+import { initSlider, resetEffects } from './effect.js';
+import { initScale, resetScale } from './scale.js';
+import { showNotice } from './show-notice.js';
+import { initValidation } from './validation.js';
 
 const form = document.querySelector('.img-upload__form');
 const imageUploadInput = form.querySelector('.img-upload__input');
@@ -64,14 +64,14 @@ const onEscapeKeydown = createEscapeKeydownHandler(hideForm);
 function hideForm() {
   resetForm();
   formPopup.classList.add('hidden');
-  unblockBodyScroll();
+  setBodyScrollLock(false);
   document.removeEventListener('keydown', onEscapeKeydown);
 }
 
 const showForm = () => {
   imageUploadInput.blur();
   formPopup.classList.remove('hidden');
-  blockBodyScroll();
+  setBodyScrollLock(true);
 
   document.addEventListener('keydown', onEscapeKeydown);
 };

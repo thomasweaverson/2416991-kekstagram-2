@@ -1,5 +1,5 @@
 import { ValidationParameters } from '../const/validation-const.js';
-import { isBlank, isUnderMaxLength } from '../utils/utils';
+import { isBlank, isUnderMaxLength } from '../utils/utils.js';
 
 const parseHashTags = (value) => {
   if (isBlank(value)) {

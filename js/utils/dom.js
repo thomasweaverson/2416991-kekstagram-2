@@ -1,5 +1,5 @@
-import { NOTICE_SHOW_TIME } from '../const/api-const';
-import { createHidingClickHandler, createOverlayClickHandler } from './listeners';
+import { NOTICE_SHOW_TIME } from '../const/api-const.js';
+import { createHidingClickHandler, createOverlayClickHandler } from './listeners.js';
 
 const findTemplateById = (id) => {
   const template = document.querySelector(`#${id}`);
@@ -25,12 +25,8 @@ const renderPack = (items, makeElement, container) => {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const blockBodyScroll = () => {
-  document.body.classList.add('modal-open');
-};
-
-const unblockBodyScroll = () => {
-  document.body.classList.remove('modal-open');
+const setBodyScrollLock = (lock) => {
+  document.body.classList.toggle('modal-open', lock);
 };
 
 const initPopup = (overlay, closeButton, hideCB) => {
@@ -55,5 +51,5 @@ const showAlert = (text = null) => {
   }, NOTICE_SHOW_TIME);
 };
 
-export { blockBodyScroll, findTemplateById, initPopup, isEscapeKey, renderPack, showAlert, unblockBodyScroll };
+export { findTemplateById, initPopup, isEscapeKey, renderPack, setBodyScrollLock, showAlert };
 
