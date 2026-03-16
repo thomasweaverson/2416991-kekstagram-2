@@ -1,31 +1,31 @@
 import { RERENDER_DELAY } from '../const/filter-const.js';
 
-const isUnderMaxLength = (str, maxLength) => str.length <= maxLength;
+const isUnderMaxLength = (string, maxLength) => string.length <= maxLength;
 
-const shuffleArray = (arr) => arr.sort(() => Math.random() - 0.5);
+const shuffleArray = (array) => [...array].sort(() => Math.random() - 0.5);
 
-const normalizeSpaces = (str) => str.trim().replace(/\s+/g, ' ');
+const normalizeSpaces = (string) => string.trim().replace(/\s+/g, ' ');
 
-const getRandomElementsFromArray = (arr, count) => {
-  const shuffled = shuffleArray(arr);
+const getRandomElementsFromArray = (array, count) => {
+  const shuffled = shuffleArray(array);
   return shuffled.slice(0, count);
 };
 
 const isBlank = (string) => /^\s*$/.test(string);
 
-const debounce = (fn, delay = RERENDER_DELAY) => {
+const debounce = (cb, delay = RERENDER_DELAY) => {
   let timeoutId;
-  return (...args) => {
+  return (...callbackArguments) => {
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => fn(...args), delay);
+    timeoutId = setTimeout(() => cb(...callbackArguments), delay);
   };
 };
 
-const memoize = (fn) => {
+const memoize = (cb) => {
   let cached;
   return () => {
     if (!cached) {
-      cached = fn();
+      cached = cb();
     }
     return cached;
   };
