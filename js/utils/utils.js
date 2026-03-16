@@ -2,7 +2,14 @@ import { RERENDER_DELAY } from '../const/filter-const.js';
 
 const isUnderMaxLength = (text, maxLength) => text.length <= maxLength;
 
-const shuffleArray = (elements) => [...elements].sort(() => Math.random() - 0.5);
+const shuffleArray = (elements) => {
+  const result = [...elements];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+};
 
 const normalizeSpaces = (text) => text.trim().replace(/\s+/g, ' ');
 
