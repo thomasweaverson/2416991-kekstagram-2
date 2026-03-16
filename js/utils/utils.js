@@ -1,17 +1,17 @@
 import { RERENDER_DELAY } from '../const/filter-const.js';
 
-const isUnderMaxLength = (string, maxLength) => string.length <= maxLength;
+const isUnderMaxLength = (text, maxLength) => text.length <= maxLength;
 
-const shuffleArray = (array) => [...array].sort(() => Math.random() - 0.5);
+const shuffleArray = (elements) => [...elements].sort(() => Math.random() - 0.5);
 
-const normalizeSpaces = (string) => string.trim().replace(/\s+/g, ' ');
+const normalizeSpaces = (text) => text.trim().replace(/\s+/g, ' ');
 
-const getRandomElementsFromArray = (array, count) => {
-  const shuffled = shuffleArray(array);
+const getRandomElementsFromArray = (elements, count) => {
+  const shuffled = shuffleArray(elements);
   return shuffled.slice(0, count);
 };
 
-const isBlank = (string) => /^\s*$/.test(string);
+const isBlank = (text) => /^\s*$/.test(text);
 
 const debounce = (cb, delay = RERENDER_DELAY) => {
   let timeoutId;
